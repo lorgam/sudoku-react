@@ -16,6 +16,15 @@ h1 {
   width: 68px;
 }
 
+.square:focus {
+  outline: none;
+}
+
+.square.selected {
+  background: #AAA;
+  opacity: 0.4;
+}
+
 .board-row {
   text-align: center;
   display: block;
@@ -25,7 +34,19 @@ h1 {
   display: inline-block;
 }
 
-.square:focus {
-  outline: none;
+.square:first-child {
+  border-left: 2px solid #000;
+}
+
+.board-row-block:last-child .square:last-child {
+  border-right: 2px solid #000;
+}
+
+.board-row.top-row .square {
+  border-top: 2px solid #000;
+}
+
+.board-row:last-child .square {
+  border-bottom: 2px solid #000;
 }
 
