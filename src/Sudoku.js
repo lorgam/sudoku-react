@@ -6,9 +6,7 @@ class Sudoku extends React.Component {
     return (
       <div className="sudoku">
         <h1>Sudoku</h1>
-        <div className="board">
-          <Board size="3" />
-        </div>
+        <Board size="3" />
       </div>
     );
   }
@@ -34,20 +32,36 @@ class Board extends React.Component {
       squares: squares
     };
     this.selected = -1;
+
+    window.addEventListener('keydown', (e) => this.handleKeyPress(e));
   }
 
-  // I/O
+  // Events
   handleClick(idx) {
     const squares = this.state.squares.slice();
 
     if (this.selected > -1) {
-      this.state.squares[this.selected].selected = false;
+      squares[this.selected].selected = false;
     }
     this.selected = idx;
 
     squares[this.selected].selected = true;
 
     this.setState({squares:squares});
+  }
+
+  handleKeyPress(e) {
+    let key = parseInt(e.key);
+    if (!isNaN(key) && key > 0) {
+      if (this.selected == -1) return;
+
+      const squares = this.state.squares.slice();
+      squares[this.selected].solution = key;
+
+      this.setState({squares:squares});
+
+      return;
+    }
   }
 
   // Render
@@ -94,7 +108,7 @@ class Board extends React.Component {
     }
 
     return (
-      <div>
+      <div className="board">
         {res}
       </div>
     );
@@ -104,11 +118,12 @@ class Board extends React.Component {
 class Square extends React.Component {
   render() {
     return (
-      <button
+      <div
         className={`square ${this.props.value.selected ? 'selected' : ''}`}
         onClick={this.props.onClick}>
           {this.props.value.solution}
-      </button>
+      </div>
     );
   }
 }
+
